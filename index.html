@@ -2,28 +2,34 @@
 <html ng-app="todoApp">
   <head lang="en">
     <meta charset="UTF=8">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script type="text/javascript" src="todo.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></script>
     <link rel="stylesheet" href="todo.css"></script>
+
     <title>TODO</title>
+
   </head>
   <body>
     <div ng-controller="TodoController">
+
       <h2>Total todos: {{getTotalTodos()}}</h2>
+
       <ul class="list-unstyled">
         <li ng-repeat="todo in todos">
-          <input type="checkbox" class="todo-checkbox" ng-model="todo.completed">
+          <input type="checkbox" class="todo-checkbox" ng-model="todo.completed" required/>
           <span class="completed-{{todo.completed}}">{{todo.text}}</span>
         </li>
       </ul>
+
       <form class="form-horizontal">
         <input type="text" ng-model="todo">
         <button class="btn" ng-click="addTodo()"><i class="fa fa-plus"></i> Add</button>
       </form>
 
-      <button class="btn deleteTodo" ng-hide="todo.show" ng-click="clearCompleted(todos.indexOf(todo.completed))"><i class="fa fa-trash"> Clear Completed</i></button>
+      <button class="btn" ng-click="clearCompleted()"><i class="fa fa-trash"> Clear Completed</i></button>
 
     </div>
   </body>
