@@ -2,7 +2,7 @@
 <html ng-app="todoApp">
   <head lang="en">
     <meta charset="UTF=8">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script type="text/javascript" src="todo.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -18,9 +18,12 @@
       <h2>Total todos: {{getTotalTodos()}}</h2>
 
       <ul class="list-unstyled">
-        <li ng-repeat="todo in todos">
+        <li ng-repeat="todo in todos" ng-dblclick="editTodo(todo)">
           <input type="checkbox" class="todo-checkbox" ng-model="todo.completed" required/>
-          <span class="completed-{{todo.completed}}">{{todo.text}}</span>
+          <span class="completed-{{todo.completed}}" ng-hide="todo.editing">{{todo.text}}</span>
+          <form ng-submit="updateTodo(todo)" ng-show="todo.editing">
+            <input ng-model="todo.text">
+          </form>
         </li>
       </ul>
 
