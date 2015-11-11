@@ -5,34 +5,38 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script type="text/javascript" src="todo.js"></script>
+    <link rel="stylesheet" href="todo.css"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></script>
-    <link rel="stylesheet" href="todo.css"></script>
-
     <title>TODO</title>
 
   </head>
   <body>
     <div ng-controller="TodoController">
+      <h4>To-Do List</h4>
+      <!-- ADD -->
+      <form ng-submit="addTodo()" class="form-horizontal">
+        <input type="text" ng-model="todo" placeholder="add a to-do" required="string"/>
+        <button class="btn btn-default btn-xs"><i class="fa fa-plus"></i> Add</button>
+      </form>
 
-      <h2>Total todos: {{getTotalTodos()}}</h2>
-
+      <!-- EDIT & MARK COMPLETE -->
       <ul class="list-unstyled">
         <li ng-repeat="todo in todos" ng-dblclick="editTodo(todo)">
-          <input type="checkbox" class="todo-checkbox" ng-model="todo.completed" required/>
+          <button class="btn btn-default btn-xs" ng-click="editTodo(todo)" ng-hide="todo.editing"><i class="fa fa-pencil"></i></button>
+          <input type="checkbox" class="todo-checkbox" ng-model="todo.completed" ng-hide="todo.editing"/>
           <span class="completed-{{todo.completed}}" ng-hide="todo.editing">{{todo.text}}</span>
+
+
           <form ng-submit="updateTodo(todo)" ng-show="todo.editing">
-            <input ng-model="todo.text">
+            <input type="text" ng-model="todo.text" required="string"/>
+            <button class="btn btn-default btn-xs">Save</button>
           </form>
         </li>
       </ul>
 
-      <form class="form-horizontal">
-        <input type="text" ng-model="todo">
-        <button class="btn" ng-click="addTodo()"><i class="fa fa-plus"></i> Add</button>
-      </form>
-
-      <button class="btn" ng-click="clearCompleted()"><i class="fa fa-trash"> Clear Completed</i></button>
+      <!-- REMOVE COMPLETED  -->
+      <button class="btn btn-default btn-sm" ng-click="clearCompleted()"><i class="fa fa-trash"> Clear Completed</i></button>
 
     </div>
   </body>
