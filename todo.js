@@ -1,17 +1,18 @@
-var todoApp = angular.module("todoApp", []);
+'use strict';
+
+var todoApp = angular.module("todoApp", ['todoApp.todoApp']);
 
 todoApp.controller('TodoController', function($scope, $http) {
 
   $scope.todos = [];
 
-// need to change deprecated success/error methods
   $http.get('/todos')
     .then(function(todos) {
       $scope.loaded = true;
       $scope.todos = todos;
     }, function(err) {
-      return alert(err)).error;
-    });
+      return alert(err));
+    };
 
   $scope.getTotalTodos = function() {
       return $scope.todos.length;
@@ -23,7 +24,7 @@ todoApp.controller('TodoController', function($scope, $http) {
       $scope.todos.push({"title": $scope.todo, "completed": false, "editing": false});
     }, function(err) {
       return "Could not save this to-do.");
-    });
+    };
   };
 
   $scope.editTodo = function(todo) {
@@ -32,13 +33,13 @@ todoApp.controller('TodoController', function($scope, $http) {
 
   $scope.updateTodo = function(todo) {
     todo.editing = false;
-    $http.put('/todos/' + todo.id
-  }).then(function(todo) {
+    $http.put('/todos/' + todo.id)
+    .then(function(todo) {
       completed: todo.completed;
     }, function(err) {
       return alert(err.message || (err.errors && err.errors.completed || "Could not update this to-do.");
     });
-  };
+  });
 
   $scope.clearCompleted = function() {
     $http.delete('/todos/' + todo.id, {
@@ -51,8 +52,6 @@ todoApp.controller('TodoController', function($scope, $http) {
       });
     }, function(err) {
       return alert(err.message || "Could not delete this to-do.");
-    })
-
+    });
   };
-
-});
+)});
