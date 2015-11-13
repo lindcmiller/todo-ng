@@ -17,10 +17,10 @@ todoApp.controller('TodoController', function($scope, $http) {
       return $scope.todos.length;
     };
 
-  $scope.addTodo = function(text) {
+  $scope.addTodo = function(title) {
     $http.post('/todos', function(todo) {
       $scope.todo = "";
-      $scope.todos.push({"text": $scope.todo, "completed": false, "editing": false});
+      $scope.todos.push({"title": $scope.todo, "completed": false, "editing": false});
     }, function(err) {
       return "Could not save this to-do.");
     });
