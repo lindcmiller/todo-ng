@@ -4,18 +4,15 @@ todoApp.controller('TodoController', function($scope, $http) {
 
   $scope.todos = [];
 
-  $scope.loadTodos = function() {
-    $http.get('/todos')
-    .then(function(todos) {
+  $http.get('/api')
+    .then(function(response) {
       $scope.loaded = true;
-      $scope.todos = todos;
+      $scope.todos = response.data.todos;
+      debugger;
     }, function(err) {
-      return alert(err)
+
+      return err;
     });
-  };
-// $scope.getTotalTodos = function() {
-//     return $scope.todos.length;
-//   };
 
 $scope.addTodo = function(title) {
   $http.post('/todos', function(todo) {
@@ -33,24 +30,22 @@ $scope.editTodo = function(todo) {
 $scope.updateTodo = function(todo) {
   todo.editing = false;
   $http.put('/todos/' + todo.id)
-}.then(function(todo) {
-    completed: todo.completed;
-  }, function(err) {
-    return alert(err.message || (err.errors && err.errors.completed || "Could not update this to-do.");
-  });
+    .catch(function(err) {
+      return "Could not update this to-do.";
+    });
 };
 
 $scope.clearCompleted = function() {
   $http.delete('/todos/' + todo.id, {
     params: {
-      completed: true
+      is_completed: true
     }
   }).then(function() {
     $scope.todos = $scope.todos.filter(function(todo) {
-      return !todo.completed;
+      return !todo.is_completed;
     });
   }, function(err) {
-    return alert(err.message || "Could not delete this to-do.");
+    return "Could not delete this to-do.";
   })
 
 };
