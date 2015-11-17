@@ -27,7 +27,7 @@
           <input type="checkbox" class="todo-checkbox" ng-model="todo.is_completed" ng-hide="todo.editing"/>
           <span class="is_completed-{{todo.is_completed}}" ng-hide="todo.editing">{{todo.title}}</span>
 
-          <form ng-submit="updateTodo(todo)" ng-show="todo.editing" ng-init="$scope.todo.title">
+          <form ng-submit="updateTodo(todo)" ng-show="todo.editing">
             <input type="text" ng-model="todo.title" required="string"/>
             <button class="btn btn-default btn-xs">Save</button>
           </form>

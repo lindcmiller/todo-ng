@@ -39,11 +39,12 @@ todoApp.controller('TodoController', function($scope, $http) {
     });
   };
 
-  $scope.clearCompleted = function() {
-    $http.delete('/api/v1/todos/', {
-    params: {
-      is_completed: true
-    }}).then(function() {
+  $scope.clearCompleted = function(todo) {
+    $http.delete('/api/v1/todos/' + todo.id, {
+      params: {
+        is_completed: true
+      }
+    }).then(function() {
       $scope.todos = $scope.todos.filter(function(todo) {
         return !todo.is_completed;
       });
