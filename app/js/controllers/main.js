@@ -42,15 +42,16 @@ todoApp.controller('TodoController', function($scope, $http) {
   };
 
   $scope.clearCompleted = function() {
-    $http.delete('/api/v1/todos', {
+    $http.delete('/api/v1/todos/', {
       params: {
         is_completed: true
-      }}).then(function(todos) {
+      }
+    }).then(function() {
       $scope.todos = $scope.todos.filter(function(todo) {
         return !todo.is_completed;
       });
     }, function(err) {
-      return "Could not delete this to-do.";
+      return "Could not delete completed to-dos.";
     });
   };
 
