@@ -33,20 +33,17 @@ todoApp.controller('TodoController', function($scope, $http) {
 
   $scope.updateTodo = function(todo) {
     todo.editing = false;
-    $http.put('/api/v1/todos/' + todo.id, {
-      title: $scope.todo,
-      is_completed: false
-    }).catch(function(err) {
+    $http.put('/api/v1/todos/' + todo.id, todo)
+    .catch(function(err) {
       return "Could not update this to-do.";
     });
   };
 
   $scope.clearCompleted = function() {
     $http.delete('/api/v1/todos/', {
-      params: {
-        is_completed: true
-      }
-    }).then(function() {
+    params: {
+      is_completed: true
+    }}).then(function() {
       $scope.todos = $scope.todos.filter(function(todo) {
         return !todo.is_completed;
       });
