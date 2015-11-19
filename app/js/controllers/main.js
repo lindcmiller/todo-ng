@@ -11,7 +11,7 @@ todoApp.controller('TodoController', function($scope, $http) {
       $scope.loaded = true;
       $scope.todos = response.data.todos;
     }, function() {
-      return "Cannot load to-dos.";
+      console.log("Cannot load to-dos.");
     });
 
   $scope.addTodo = function() {
@@ -22,9 +22,8 @@ todoApp.controller('TodoController', function($scope, $http) {
       $scope.todos.push(response.data.todo);
       $scope.todo = "";
     }, function(err) {
-      return "Could not add this to-do.";
+      console.log("Could not add this to-do.");
     });
-
   };
 
   $scope.editTodo = function(todo) {
@@ -35,22 +34,24 @@ todoApp.controller('TodoController', function($scope, $http) {
     todo.editing = false;
     $http.put('/api/v1/todos/' + todo.id, todo)
     .catch(function(err) {
-      return "Could not update this to-do.";
+      console.log("Could not update this to-do.");
     });
   };
 
-  $scope.clearCompleted = function(todo) {
-    $http.delete('/api/v1/todos/' + todo.id, {
-      params: {
-        is_completed: true
+  $scope.clearCompleted = function() {
+    var completedTodos = [];
+    for(var completedIndex = 0; completedIndex < $scope.todos.length; completedIndex++) {
+      if ($scope.todos[completedIndex].is_completed){
+        completedTodos.push($scope.todos[completedIndex]);
       }
-    }).then(function() {
-      $scope.todos = $scope.todos.filter(function(todo) {
-        return !todo.is_completed;
-      });
-    }, function(err) {
-      return "Could not delete completed to-dos.";
-    });
-  };
+    }
 
+    completedTodos.forEach(function(todo) {
+      $http.delete('/api/v1/todos/' + todo.id)
+        .catch(function(err) {
+          console.log("Could not delete completed to-dos.");
+        });
+
+    });
+  }  
 });
