@@ -2,17 +2,21 @@
 
 var todoApp = angular.module("todoApp", []);
 
-todoApp.controller('TodoController', function($scope, $http) {
+todoApp.controller('TodoController', function($scope, $http, $q) {
 
   $scope.todos = [];
 
-  $http.get('/api/v1/todos')
-    .then(function(response) {
-      $scope.loaded = true;
-      $scope.todos = response.data.todos;
-    }, function() {
-      console.log("Cannot load to-dos.");
-    });
+  var loadTodos = function() {
+    $http.get('/api/v1/todos')
+      .then(function(response) {
+        $scope.loaded = true;
+        $scope.todos = response.data.todos;
+      }, function() {
+        console.log("Cannot load to-dos.");
+      });
+  };
+
+  loadTodos();
 
   $scope.addTodo = function() {
     $http.post('/api/v1/todos', {
@@ -46,12 +50,15 @@ todoApp.controller('TodoController', function($scope, $http) {
       }
     }
 
-    completedTodos.forEach(function(todo) {
-      $http.delete('/api/v1/todos/' + todo.id)
+    var promises = completedTodos.map(function(todo) {
+      return $http.delete('/api/v1/todos/' + todo.id)
         .catch(function(err) {
           console.log("Could not delete completed to-dos.");
         });
-
     });
-  }  
+
+    $q.all(promises)
+    .then(loadTodos);
+
+  }
 });
