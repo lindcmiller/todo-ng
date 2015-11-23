@@ -4,8 +4,8 @@
     <meta charset="UTF=8">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-    <script type="text/javascript" src="todo.js"></script>
-    <link rel="stylesheet" href="todo.css"></script>
+    <script type="text/javascript" src="app/js/controllers/main.js"></script>
+    <link rel="stylesheet" href="app/css/todo.css"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></script>
     <title>TODO</title>
@@ -24,12 +24,11 @@
       <ul class="list-unstyled">
         <li ng-repeat="todo in todos" ng-dblclick="editTodo(todo)">
           <button class="btn btn-default btn-xs" ng-click="editTodo(todo)" ng-hide="todo.editing"><i class="fa fa-pencil"></i></button>
-          <input type="checkbox" class="todo-checkbox" ng-model="todo.completed" ng-hide="todo.editing"/>
-          <span class="completed-{{todo.completed}}" ng-hide="todo.editing">{{todo.text}}</span>
-
+          <input type="checkbox" class="todo-checkbox" ng-model="todo.is_completed" ng-hide="todo.editing"/>
+          <span class="is_completed-{{todo.is_completed}}" ng-hide="todo.editing">{{todo.title}}</span>
 
           <form ng-submit="updateTodo(todo)" ng-show="todo.editing">
-            <input type="text" ng-model="todo.text" required="string"/>
+            <input type="text" ng-model="todo.title" required="string"/>
             <button class="btn btn-default btn-xs">Save</button>
           </form>
         </li>
